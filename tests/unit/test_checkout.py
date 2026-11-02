@@ -2,7 +2,12 @@
 
 import pytest
 
-from supermarket_receipt_api.checkout import line_subtotal_cents, percentage_discount_cents
+from supermarket_receipt_api.checkout import (
+    line_subtotal_cents,
+    percentage_discount_cents,
+    three_for_two_discount_cents,
+    validate_quantity,
+)
 
 
 @pytest.mark.parametrize(
@@ -55,3 +60,28 @@ def test_percentage_discount_nominal(
         AssertionError: Si la réduction calculée diffère de expected.
     """
     assert percentage_discount_cents(subtotal_cents, discount_percent) == expected
+
+@pytest.mark.parametrize(
+    "quantity, expected",
+    [
+        (1000, 1000),  # cas normal : quantité courante
+        (1, 1),  # cas limite : plus petite quantité valide
+    ],
+)
+def test_validate_quantity_nominal(quantity: int, expected: int) -> None:
+    """Vérifier que validate_quantity retourne la quantité inchangée."""
+    assert validate_quantity(quantity) == expected
+
+
+@pytest.mark.parametrize(
+    "quantity, exception",
+    [
+        (0, ValueError),  # cas limite : juste sous le seuil valide
+        (True, TypeError),  # edge case : bool est une sous-classe d'int
+        (1.5, TypeError),  # failure attendue : type non entier
+    ],
+)
+def test_validate_quantity_invalid(quantity: object, exception: type[Exception]) -> None:
+    """Vérifier que validate_quantity rejette les quantités hors contrat."""
+    with pytest.raises(exception):
+        validate_quantity(quantity)
