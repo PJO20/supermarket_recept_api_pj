@@ -85,3 +85,23 @@ def test_validate_quantity_invalid(quantity: object, exception: type[Exception])
     """Vérifier que validate_quantity rejette les quantités hors contrat."""
     with pytest.raises(exception):
         validate_quantity(quantity)
+
+@pytest.mark.parametrize(
+    "unit_price_cents, quantity, expected",
+    [
+        (100, 5, 100),  # cas normal : reste non multiple de 3
+        (100, 3, 100),  # cas limite : seuil de déclenchement de la promo
+        (100, 2, 0),  # cas limite : juste sous le seuil
+    ],
+)
+def test_three_for_two_discount_nominal(
+    unit_price_cents: int, quantity: int, expected: int
+) -> None:
+    """Vérifier le calcul de la réduction 3 pour 2."""
+    assert three_for_two_discount_cents(unit_price_cents, quantity) == expected
+
+
+def test_three_for_two_discount_invalid_quantity() -> None:
+    """Vérifier que three_for_two_discount_cents rejette une quantité invalide."""
+    with pytest.raises(ValueError):
+        three_for_two_discount_cents(100, 0)
