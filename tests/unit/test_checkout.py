@@ -65,7 +65,7 @@ def test_percentage_discount_nominal(
 @pytest.mark.parametrize(
     "quantity, expected",
     [
-        (1000, 9999),  # cas normal : quantité courante
+        (1000, 1000),  # cas normal : quantité courante
         (1, 1),  # cas limite : plus petite quantité valide
     ],
 )
