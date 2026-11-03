@@ -1,7 +1,5 @@
 """Tests d'intégration HTTP pour l'API de caisse, via TestClient FastAPI."""
 
-"""Tests d'intégration HTTP pour l'API de caisse, via TestClient FastAPI."""
-
 import pytest
 from fastapi.testclient import TestClient
 
