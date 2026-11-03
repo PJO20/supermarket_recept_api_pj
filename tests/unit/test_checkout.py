@@ -107,5 +107,3 @@ def test_three_for_two_discount_invalid_quantity() -> None:
     """Vérifier que three_for_two_discount_cents rejette une quantité invalide."""
     with pytest.raises(ValueError):
         three_for_two_discount_cents(100, 0)
-
-
