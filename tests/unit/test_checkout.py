@@ -61,6 +61,7 @@ def test_percentage_discount_nominal(
     """
     assert percentage_discount_cents(subtotal_cents, discount_percent) == expected
 
+
 @pytest.mark.parametrize(
     "quantity, expected",
     [
@@ -85,6 +86,7 @@ def test_validate_quantity_invalid(quantity: object, exception: type[Exception])
     """Vérifier que validate_quantity rejette les quantités hors contrat."""
     with pytest.raises(exception):
         validate_quantity(quantity)
+
 
 @pytest.mark.parametrize(
     "unit_price_cents, quantity, expected",
